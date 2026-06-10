@@ -12,9 +12,9 @@ jobs:
 
       - name: Upload to server
         env:
-          SSH_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          SSH_KEY_B64: ${{ secrets.SSH_PRIVATE_KEY }}
         run: |
-          echo "$SSH_KEY" > /tmp/key
+          echo "$SSH_KEY_B64" | base64 -d > /tmp/key
           chmod 600 /tmp/key
           scp -i /tmp/key -o StrictHostKeyChecking=no index.html root@204.168.245.80:/var/www/jungleteam/index.html
           scp -i /tmp/key -o StrictHostKeyChecking=no -r img/ root@204.168.245.80:/var/www/jungleteam/img/
