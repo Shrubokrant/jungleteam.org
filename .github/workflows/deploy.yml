@@ -19,4 +19,6 @@ jobs:
           scp -i /tmp/key -o StrictHostKeyChecking=no index.html root@204.168.245.80:/var/www/jungleteam/index.html
           scp -i /tmp/key -o StrictHostKeyChecking=no about.html root@204.168.245.80:/var/www/jungleteam/about.html
           scp -i /tmp/key -o StrictHostKeyChecking=no -r img/. root@204.168.245.80:/var/www/jungleteam/img/
+          scp -i /tmp/key -o StrictHostKeyChecking=no foliage.css foliage.js root@204.168.245.80:/var/www/jungleteam/
+          scp -i /tmp/key -o StrictHostKeyChecking=no -r foliage root@204.168.245.80:/var/www/jungleteam/
           rm /tmp/key

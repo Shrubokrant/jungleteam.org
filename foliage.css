@@ -1,0 +1,39 @@
+/* Jungle foliage frame: big, side-oriented leaves layered down the page gutters,
+   pivoting from their stem. Motion (idle sway + scroll spring + mouse wind) is in
+   foliage.js. The overlay is non-interactive and lives in the empty margins outside
+   the content grid, so it never covers text or blocks clicks.
+
+   Structure per element:
+     .jf-item   positioned wrapper, carries the SCREEN-SPACE drop-shadow (not rotated,
+                so the shadow direction stays consistent across all leaves)
+     .jf-item img   the leaf, rotated around its stem by the animation loop */
+
+#jungle-foliage {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 2;
+}
+
+#jungle-foliage .jf-item {
+  position: absolute;
+}
+
+#jungle-foliage .jf-item img {
+  display: block;
+  width: 100%;
+  height: auto;
+  user-select: none;
+  -webkit-user-drag: none;
+  will-change: transform;
+  backface-visibility: hidden;
+}
+
+/* keep Material's chrome painting on top of the foliage */
+.md-header { z-index: 10; }
+
+/* No spare margin to frame on small screens. */
+@media screen and (max-width: 1000px) {
+  #jungle-foliage { display: none; }
+}
