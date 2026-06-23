@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Will (Shru) — Jungle</title>
+    <meta name="description" content="The one-person studio behind Jungle. Will — aka Shru — has been building performant, modular, friendly Unity tools since 2012. Bluesky, GitHub and YouTube links inside.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&family=Lato:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg: #1a1a1a;
+            --bg-card: #222222;
+            --bg-elevated: #1e1e1e;
+            --border: #333333;
+            --border-hover: #2aad66;
+            --accent: #6abf40;
+            --accent-dim: #4a9e2a;
+            --accent-glow: rgba(106,191,64,0.10);
+            --accent-glow-strong: rgba(106,191,64,0.18);
+            --text: #e0e0e0;
+            --text-secondary: #999999;
+            --text-muted: #666666;
+            --white: #f0f0f0;
+            --vine: #3a7a28;
+            --leaf-dark: #1e2e1a;
+            --leaf-mid: #2d5a20;
+        }
+
+        body {
+            font-family: 'Lato', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.65;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+        a { color: var(--accent); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        h1, h2, h3, .logo { font-family: 'Baloo 2', 'Lato', sans-serif; }
+
+        /* ── Header ─────────────────────────────────────── */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.1rem 3rem;
+            background: rgba(26,26,26,0.92);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(14px);
+        }
+        .logo {
+            font-size: 1.35rem;
+            font-weight: 800;
+            color: var(--accent);
+            letter-spacing: 0.06em;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        nav { display: flex; align-items: center; gap: 0.15rem; }
+        nav a {
+            color: var(--text-secondary);
+            font-size: 0.88rem;
+            font-weight: 500;
+            padding: 0.4rem 0.85rem;
+            border-radius: 6px;
+            transition: color 0.15s, background 0.15s;
+        }
+        nav a:hover { color: var(--accent); background: var(--accent-glow); text-decoration: none; }
+        nav a.active { color: var(--accent); }
+
+        /* ── Hero ───────────────────────────────────────── */
+        .hero {
+            text-align: center;
+            padding: 6rem 2rem 4.5rem;
+            position: relative;
+            overflow: visible;
+            background:
+                radial-gradient(ellipse at 50% 0%, rgba(106,191,64,0.08) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 90%, rgba(30,46,26,0.2) 0%, transparent 40%),
+                radial-gradient(ellipse at 15% 85%, rgba(30,46,26,0.15) 0%, transparent 35%);
+        }
+        .hero-canopy {
+            position: absolute;
+            top: -20px;
+            left: -60px;
+            right: -60px;
+            height: 320px;
+            z-index: 3;
+            pointer-events: none;
+            overflow: visible;
+        }
+        .hero-canopy .ln {
+            position: absolute;
+            border: none !important;
+            border-radius: 0 !important;
+            transform-origin: top center;
+            mix-blend-mode: lighten;
+        }
+        .hero-canopy .ln.v1 { filter: hue-rotate(15deg) saturate(1.2); }
+        .hero-canopy .ln.v2 { filter: hue-rotate(15deg) saturate(1.2) brightness(0.5); }
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            right: 0;
+            height: 40px;
+            background:
+                url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 40'%3E%3Cpath d='M0,20 Q30,5 60,18 Q90,30 120,15 Q150,5 180,20 Q210,32 240,16 Q270,4 300,18 Q330,30 360,14 Q390,2 420,18 Q450,30 480,15 Q510,4 540,18 Q570,32 600,14 Q630,2 660,20 Q690,32 720,16 Q750,4 780,18 Q810,30 840,14 Q870,2 900,18 Q930,30 960,15 Q990,4 1020,18 Q1050,30 1080,14 Q1110,5 1140,20 Q1170,30 1200,16 L1200,40 L0,40 Z' fill='%231a1a1a' /%3E%3C/svg%3E") center bottom / cover no-repeat;
+            z-index: 1;
+            pointer-events: none;
+        }
+        .hero-vine { position: absolute; top: 0; pointer-events: none; z-index: 0; }
+        .hero-vine-1 {
+            left: 3%;
+            width: 40px;
+            height: 420px;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 420'%3E%3Cpath d='M20,0 Q12,60 25,120 Q35,180 18,240 Q8,300 22,360 Q28,390 20,420' fill='none' stroke='%233a7a28' stroke-width='2' opacity='0.35'/%3E%3Cellipse cx='22' cy='120' rx='12' ry='5' fill='%231e2e1a' opacity='0.5' transform='rotate(-25,22,120)'/%3E%3Cellipse cx='18' cy='210' rx='10' ry='4' fill='%231e2e1a' opacity='0.4' transform='rotate(20,18,210)'/%3E%3Cellipse cx='24' cy='310' rx='14' ry='6' fill='%231e2e1a' opacity='0.35' transform='rotate(-15,24,310)'/%3E%3C/svg%3E") no-repeat;
+        }
+        .hero-vine-3 {
+            right: 4%;
+            width: 40px;
+            height: 380px;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 380'%3E%3Cpath d='M22,0 Q30,55 16,110 Q8,165 24,220 Q32,275 18,330 Q12,355 20,380' fill='none' stroke='%233a7a28' stroke-width='2' opacity='0.3'/%3E%3Cellipse cx='18' cy='110' rx='13' ry='5' fill='%231e2e1a' opacity='0.45' transform='rotate(22,18,110)'/%3E%3Cellipse cx='24' cy='220' rx='10' ry='4' fill='%231e2e1a' opacity='0.35' transform='rotate(-18,24,220)'/%3E%3Cellipse cx='16' cy='330' rx='12' ry='5' fill='%231e2e1a' opacity='0.3' transform='rotate(12,16,330)'/%3E%3C/svg%3E") no-repeat;
+        }
+        .hero > *:not(.hero-vine):not(.hero-canopy) { position: relative; z-index: 2; }
+
+        /* Avatar — swap the monogram block for <img src="/img/will.jpg" ...> when a photo is ready */
+        .avatar {
+            width: 132px;
+            height: 132px;
+            margin: 0 auto 1.5rem;
+            border-radius: 50%;
+            background: radial-gradient(circle at 35% 30%, #2d5a20, #14240f);
+            border: 3px solid var(--accent-dim);
+            box-shadow: 0 0 0 6px rgba(106,191,64,0.08), 0 10px 30px rgba(0,0,0,0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .avatar .mono {
+            font-family: 'Baloo 2', sans-serif;
+            font-weight: 800;
+            font-size: 3.4rem;
+            color: var(--accent);
+            line-height: 1;
+            letter-spacing: -0.02em;
+        }
+        .avatar .leaf-badge {
+            position: absolute;
+            bottom: 6px;
+            right: 10px;
+            font-size: 1.4rem;
+        }
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--white);
+            margin-bottom: 0.6rem;
+            line-height: 1.12;
+        }
+        .hero h1 em { font-style: normal; color: var(--accent); }
+        .hero .tagline {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            max-width: 620px;
+            margin: 0 auto 1.8rem;
+            line-height: 1.7;
+        }
+
+        /* ── Social row (hero) ──────────────────────────── */
+        .social-row { display: flex; justify-content: center; gap: 0.7rem; flex-wrap: wrap; }
+        .social-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.55rem 1.15rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text);
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: border-color 0.15s, background 0.15s, transform 0.15s;
+        }
+        .social-pill:hover {
+            border-color: var(--border-hover);
+            background: var(--accent-glow);
+            transform: translateY(-2px);
+            text-decoration: none;
+            color: var(--white);
+        }
+        .social-pill svg { width: 18px; height: 18px; flex-shrink: 0; }
+
+        /* ── Section ────────────────────────────────────── */
+        section {
+            padding: 4.5rem 3rem;
+            max-width: 960px;
+            margin: 0 auto;
+            position: relative;
+        }
+        .section-label {
+            font-size: 0.72rem;
+            color: var(--accent-dim);
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        section h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1.2rem;
+            color: var(--white);
+        }
+        .prose p { color: var(--text-secondary); font-size: 1.02rem; line-height: 1.8; margin-bottom: 1.1rem; }
+        .prose p strong { color: var(--text); }
+        .prose a { font-weight: 600; }
+
+        /* ── What I do grid ─────────────────────────────── */
+        .do-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.1rem;
+            margin-top: 0.5rem;
+        }
+        .do-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: border-color 0.2s, transform 0.15s;
+            position: relative;
+            overflow: hidden;
+        }
+        .do-card:hover { border-color: var(--border-hover); transform: translateY(-3px); }
+        .do-card .ic { font-size: 1.7rem; display: block; margin-bottom: 0.6rem; }
+        .do-card h3 { font-size: 1.05rem; color: var(--white); margin-bottom: 0.35rem; }
+        .do-card p { font-size: 0.88rem; color: var(--text-secondary); line-height: 1.6; }
+
+        /* ── The menagerie ──────────────────────────────── */
+        .menagerie { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 0.4rem; }
+        .animal-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+            padding: 0.5rem 0.95rem;
+            background: rgba(30,122,79,0.1);
+            border: 1px solid rgba(30,122,79,0.28);
+            border-radius: 20px;
+            font-size: 0.85rem;
+            color: var(--accent);
+            font-weight: 600;
+            transition: background 0.15s, border-color 0.15s;
+        }
+        .animal-chip:hover { background: rgba(30,122,79,0.2); border-color: var(--accent-dim); text-decoration: none; }
+        .animal-chip .emoji { font-size: 1rem; }
+
+        /* ── Connect cards ──────────────────────────────── */
+        .connect-section {
+            background: var(--bg-elevated);
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+        .connect-inner { max-width: 960px; margin: 0 auto; padding: 4.5rem 3rem; }
+        .connect-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.1rem;
+            margin-top: 1.8rem;
+        }
+        .connect-card {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 0.6rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.6rem;
+            transition: border-color 0.2s, transform 0.15s, box-shadow 0.25s;
+        }
+        .connect-card:hover {
+            border-color: var(--border-hover);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            text-decoration: none;
+        }
+        .connect-card svg { width: 30px; height: 30px; }
+        .connect-card .cc-name { font-family: 'Baloo 2', sans-serif; font-weight: 700; font-size: 1.1rem; color: var(--white); }
+        .connect-card .cc-handle { font-size: 0.85rem; color: var(--text-secondary); }
+        .connect-card .cc-arrow { margin-top: auto; font-size: 0.82rem; color: var(--accent); font-weight: 600; }
+
+        /* ── CTA Banner ─────────────────────────────────── */
+        .cta-banner {
+            text-align: center;
+            padding: 4rem 2rem;
+            position: relative;
+            overflow: hidden;
+            background: radial-gradient(ellipse at center, rgba(106,191,64,0.07), transparent 55%);
+        }
+        .cta-banner h2 { font-size: 1.8rem; color: var(--white); margin-bottom: 0.6rem; }
+        .cta-banner p { color: var(--text-secondary); margin-bottom: 2rem; max-width: 480px; margin-left: auto; margin-right: auto; }
+        .hero-buttons { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; }
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.85rem 2rem;
+            background: var(--accent);
+            color: var(--bg);
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            transition: transform 0.15s, box-shadow 0.15s;
+            border: none;
+            cursor: pointer;
+        }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(61,220,132,0.25); text-decoration: none; color: var(--bg); }
+        .btn-ghost {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.85rem 2rem;
+            background: transparent;
+            color: var(--text);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: border-color 0.15s, background 0.15s;
+            cursor: pointer;
+        }
+        .btn-ghost:hover { border-color: var(--accent-dim); background: var(--accent-glow); text-decoration: none; }
+
+        /* ── Footer ─────────────────────────────────────── */
+        footer {
+            text-align: center;
+            padding: 2.5rem 2rem;
+            color: var(--text-muted);
+            font-size: 0.82rem;
+            border-top: 1px solid var(--border);
+        }
+        footer a { color: var(--text-secondary); }
+        footer a:hover { color: var(--accent); }
+        .footer-links { display: flex; justify-content: center; gap: 1.8rem; margin-bottom: 0.8rem; flex-wrap: wrap; }
+
+        /* ── Responsive ─────────────────────────────────── */
+        @media (max-width: 768px) {
+            header { padding: 1rem 1.5rem; }
+            nav a { padding: 0.4rem 0.6rem; }
+            .hero { padding: 4rem 1.5rem 3rem; }
+            .hero h1 { font-size: 2.1rem; }
+            .hero-vine { display: none; }
+            section { padding: 3rem 1.5rem; }
+            .do-grid { grid-template-columns: 1fr; }
+            .connect-inner { padding: 3rem 1.5rem; }
+            .connect-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <a href="/index.html" class="logo">
+        <img src="https://assetstorev1-prd-cdn.unity3d.com/key-image/29d37e60-4582-4b80-ab9e-2d433e7bb848.png" alt="Jungle" style="height:32px; border:none; border-radius:0;">
+    </a>
+    <nav>
+        <a href="/index.html#plugins">Plugins</a>
+        <a href="/index.html#framework">Framework</a>
+        <a href="/about.html" class="active">About</a>
+        <a href="https://jungleteam.org/docs/" target="_blank">Docs</a>
+        <a href="https://discord.gg/XEET6D6vN9" target="_blank">Discord</a>
+    </nav>
+</header>
+
+<!-- ── Hero ──────────────────────────────────────────── -->
+<div class="hero">
+    <div class="hero-canopy">
+        <img class="ln v2" src="/img/liana.png" style="top:-30px; left:-3%; width:320px; transform:scale(1.1) rotate(-5deg); opacity:0.85;">
+        <img class="ln v1" src="/img/liana.png" style="top:-20px; left:14%; width:220px; transform:scale(0.85) rotate(8deg); opacity:0.8;">
+        <img class="ln v1" src="/img/liana.png" style="top:-35px; left:30%; width:300px; transform:scale(1.15) scaleX(-1) rotate(-3deg); opacity:0.9;">
+        <img class="ln v2" src="/img/liana.png" style="top:-15px; left:50%; width:240px; transform:scale(0.9) rotate(6deg); opacity:0.8;">
+        <img class="ln v1" src="/img/liana.png" style="top:-25px; left:66%; width:280px; transform:scale(1.05) scaleX(-1) rotate(-7deg); opacity:0.85;">
+        <img class="ln v2" src="/img/liana.png" style="top:-30px; left:82%; width:200px; transform:scale(0.8) rotate(4deg); opacity:0.75;">
+        <img class="ln v1" src="/img/liana.png" style="top:-20px; left:92%; width:260px; transform:scale(1.0) scaleX(-1) rotate(5deg); opacity:0.85;">
+    </div>
+    <div class="hero-vine hero-vine-1"></div>
+    <div class="hero-vine hero-vine-3"></div>
+
+    <!-- Avatar: monogram placeholder. To use a photo, replace this block with:
+         <img class="avatar" src="/img/will.jpg" alt="Will (Shru)"> -->
+    <div class="avatar">
+        <span class="mono">W</span>
+        <span class="leaf-badge">🌿</span>
+    </div>
+
+    <h1>Hi, I'm Will — most folks here call me <em>Shru</em>.</h1>
+    <p class="tagline">A one-person studio quietly building Unity tools in the gamedev jungle. I've been making editor tools, gameplay systems and productivity boosters for 14 years — and now I'm packaging the best of them up so you can use them too.</p>
+
+    <div class="social-row">
+        <a href="https://bsky.app/profile/shrubokrant.bsky.social" class="social-pill" target="_blank" rel="me noopener">
+            <svg viewBox="0 0 600 530" fill="currentColor" aria-hidden="true" style="color:#3b9cf0;"><path d="M135.7 44C202 93.8 273.4 195 299.7 249.3 326 195 397.3 93.8 463.7 44 511.6 8.1 589.3-19.7 589.3 68.9c0 17.7-10.1 148.9-16.1 170.2-20.7 74-96.1 92.9-163.2 81.5 117.3 20 147.1 86 82.7 152-122.4 125.3-175.9-31.4-189.6-67.6-2.5-6.6-3.7-9.7-3.7-7 0-2.7-1.2.4-3.7 7-13.7 36.2-67.2 192.9-189.6 67.6-64.4-66-34.6-132 82.7-152C158.4 339.5 83 320.6 62.3 246.6c-6-21.3-16.1-152.5-16.1-170.2C46.2-19.7 123.9 8.1 135.7 44z"/></svg>
+            Bluesky
+        </a>
+        <a href="https://github.com/Shrubokrant" class="social-pill" target="_blank" rel="me noopener">
+            <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+            GitHub
+        </a>
+        <a href="https://www.youtube.com/@JungleShru" class="social-pill" target="_blank" rel="me noopener">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="color:#ff4444;"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31.4 31.4 0 0 0 0 12a31.4 31.4 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31.4 31.4 0 0 0 24 12a31.4 31.4 0 0 0-.5-5.8zM9.5 15.5v-7l6.3 3.5-6.3 3.5z"/></svg>
+            YouTube
+        </a>
+    </div>
+</div>
+
+<!-- ── The story ─────────────────────────────────────── -->
+<section>
+    <div class="section-label">The Person Behind the Plugins</div>
+    <h2>One developer, a whole jungle of tools.</h2>
+    <div class="prose">
+        <p>I'm <strong>William Besnard</strong> — but online, and to everyone in the Jungle, I'm <strong>Shru</strong>. Jungle is my one-person studio: I design, build, document and market every plugin myself, from the Unity/C# engineering down to the package registry and the server it runs on.</p>
+        <p>It started back in <strong>2012</strong>. Every game I worked on needed the same things — clean editor tooling, reliable gameplay systems, little productivity boosters to make the day-to-day faster. So I kept building them. Over 14 years those tools grew up: I kept them <strong>performant, modular and genuinely pleasant to use</strong>, and eventually they were good enough that other developers should get to use them too.</p>
+        <p>That's what Jungle is. Not a faceless asset farm — a family of tools, each named after an animal, each earning its name, all sharing <a href="/index.html#framework">one modular framework</a> with full source and close to zero runtime allocation. Tools I actually ship games with, polished up for you.</p>
+    </div>
+</section>
+
+<!-- ── What I do ─────────────────────────────────────── -->
+<section>
+    <div class="section-label">All of It, Honestly</div>
+    <h2>What "solo dev" really means.</h2>
+    <div class="do-grid">
+        <div class="do-card">
+            <span class="ic">🛠️</span>
+            <h3>Engineering</h3>
+            <p>Unity &amp; C#, from low-level performance work to the no-code, designer-friendly layer on top. The fun part.</p>
+        </div>
+        <div class="do-card">
+            <span class="ic">🧩</span>
+            <h3>The Framework</h3>
+            <p>One shared modular foundation — values, events, conditions, processes — that every plugin is built on, so nothing is duplicated.</p>
+        </div>
+        <div class="do-card">
+            <span class="ic">📖</span>
+            <h3>Documentation</h3>
+            <p>Every system written up properly. If a tool needs a wall of text to explain, it usually needs a better design instead.</p>
+        </div>
+        <div class="do-card">
+            <span class="ic">🌐</span>
+            <h3>Infra &amp; Marketing</h3>
+            <p>Self-hosted package registry, server ops, and getting the word out — all run from one desk, the indie way.</p>
+        </div>
+    </div>
+</section>
+
+<!-- ── The menagerie ─────────────────────────────────── -->
+<section>
+    <div class="section-label">The Menagerie</div>
+    <h2>The animals I'm raising.</h2>
+    <div class="prose">
+        <p>Every plugin is an animal pun, and the mascot <em>is</em> the logo. A few are already out in the wild; the rest are growing up in the undergrowth. Meet the whole team on the <a href="/index.html#plugins">plugins page</a>.</p>
+    </div>
+    <div class="menagerie">
+        <a href="/index.html#plugins" class="animal-chip"><span class="emoji">🐙</span> Octoputs</a>
+        <a href="https://assetstore.unity.com/packages/tools/level-design/grabbit-editor-physics-transforms-182328" class="animal-chip" target="_blank"><span class="emoji">🐰</span> Grabbit</a>
+        <a href="https://assetstore.unity.com/packages/tools/utilities/monkey-commander-productivity-booster-119938" class="animal-chip" target="_blank"><span class="emoji">🐒</span> MonKey Commander</a>
+        <a href="https://assetstore.unity.com/packages/tools/utilities/selection-parrot-group-select-organize-130053" class="animal-chip" target="_blank"><span class="emoji">🦜</span> Selection Parrot</a>
+        <a href="/index.html#plugins" class="animal-chip"><span class="emoji">🦌</span> Anteloope</a>
+        <a href="/index.html#plugins" class="animal-chip"><span class="emoji">🐦</span> Magpile</a>
+        <a href="/index.html#plugins" class="animal-chip"><span class="emoji">🦦</span> Otterflow</a>
+    </div>
+</section>
+
+<!-- ── Connect ───────────────────────────────────────── -->
+<div class="connect-section">
+    <div class="connect-inner">
+        <div class="section-label">Find Me</div>
+        <h2 style="font-size:2rem; color:var(--white);">Come say hi.</h2>
+        <p style="color:var(--text-secondary); max-width:560px;">I post progress, dev notes and the occasional tool demo. Pick your jungle:</p>
+        <div class="connect-grid">
+            <a href="https://bsky.app/profile/shrubokrant.bsky.social" class="connect-card" target="_blank" rel="me noopener">
+                <svg viewBox="0 0 600 530" fill="currentColor" aria-hidden="true" style="color:#3b9cf0;"><path d="M135.7 44C202 93.8 273.4 195 299.7 249.3 326 195 397.3 93.8 463.7 44 511.6 8.1 589.3-19.7 589.3 68.9c0 17.7-10.1 148.9-16.1 170.2-20.7 74-96.1 92.9-163.2 81.5 117.3 20 147.1 86 82.7 152-122.4 125.3-175.9-31.4-189.6-67.6-2.5-6.6-3.7-9.7-3.7-7 0-2.7-1.2.4-3.7 7-13.7 36.2-67.2 192.9-189.6 67.6-64.4-66-34.6-132 82.7-152C158.4 339.5 83 320.6 62.3 246.6c-6-21.3-16.1-152.5-16.1-170.2C46.2-19.7 123.9 8.1 135.7 44z"/></svg>
+                <span class="cc-name">Bluesky</span>
+                <span class="cc-handle">@shrubokrant</span>
+                <span class="cc-arrow">Follow along →</span>
+            </a>
+            <a href="https://github.com/Shrubokrant" class="connect-card" target="_blank" rel="me noopener">
+                <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true" style="color:var(--white);"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+                <span class="cc-name">GitHub</span>
+                <span class="cc-handle">@Shrubokrant</span>
+                <span class="cc-arrow">See the code →</span>
+            </a>
+            <a href="https://www.youtube.com/@JungleShru" class="connect-card" target="_blank" rel="me noopener">
+                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="color:#ff4444;"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31.4 31.4 0 0 0 0 12a31.4 31.4 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31.4 31.4 0 0 0 24 12a31.4 31.4 0 0 0-.5-5.8zM9.5 15.5v-7l6.3 3.5-6.3 3.5z"/></svg>
+                <span class="cc-name">YouTube</span>
+                <span class="cc-handle">Dev demos &amp; devlogs</span>
+                <span class="cc-arrow">Watch →</span>
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- ── CTA ───────────────────────────────────────────── -->
+<div class="cta-banner">
+    <h2>Building something with my tools?</h2>
+    <p>I'd genuinely love to hear about it. The Discord is the best place to reach me — questions, bug reports, feature ideas, or just to chat Unity.</p>
+    <div class="hero-buttons">
+        <a href="https://discord.gg/XEET6D6vN9" class="btn-primary" target="_blank">Join the Discord</a>
+        <a href="/index.html#plugins" class="btn-ghost">Browse the Plugins</a>
+    </div>
+</div>
+
+<!-- ── Footer ────────────────────────────────────────── -->
+<footer>
+    <div class="footer-links">
+        <a href="/index.html#plugins">Plugins</a>
+        <a href="/about.html">About</a>
+        <a href="https://jungleteam.org/docs/" target="_blank">Docs</a>
+        <a href="https://discord.gg/XEET6D6vN9" target="_blank">Discord</a>
+        <a href="https://bsky.app/profile/shrubokrant.bsky.social" target="_blank" rel="me">Bluesky</a>
+        <a href="https://github.com/Shrubokrant" target="_blank" rel="me">GitHub</a>
+        <a href="https://www.youtube.com/@JungleShru" target="_blank" rel="me">YouTube</a>
+    </div>
+    <p>&copy; 2026 Jungle &mdash; indie-built with &hearts;, &#127793; and &#9749;.</p>
+</footer>
+
+</body>
+</html>
