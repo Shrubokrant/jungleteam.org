@@ -13,22 +13,22 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         :root {
-            --bg: #1a1a1a;
-            --bg-card: #222222;
-            --bg-elevated: #1e1e1e;
-            --border: #333333;
-            --border-hover: #2aad66;
-            --accent: #6abf40;
-            --accent-dim: #4a9e2a;
+            --bg: #222222;
+            --bg-card: #353535;
+            --bg-elevated: #222222;
+            --border: #353535;
+            --border-hover: #6ABF40;
+            --accent: #6ABF40;
+            --accent-dim: #407327;
             --accent-glow: rgba(106,191,64,0.10);
             --accent-glow-strong: rgba(106,191,64,0.18);
-            --text: #e0e0e0;
+            --text: #F0F0F0;
             --text-secondary: #999999;
-            --text-muted: #666666;
-            --white: #f0f0f0;
-            --vine: #3a7a28;
-            --leaf-dark: #1e2e1a;
-            --leaf-mid: #2d5a20;
+            --text-muted: #999999;
+            --white: #F0F0F0;
+            --vine: #407327;
+            --leaf-dark: #294A19;
+            --leaf-mid: #407327;
         }
 
         body {
@@ -60,7 +60,7 @@
             justify-content: space-between;
             align-items: center;
             padding: 1.1rem 3rem;
-            background: rgba(26,26,26,0.92);
+            background: rgba(34,34,34,0.92);
             border-bottom: 1px solid var(--border);
             position: sticky;
             top: 0;
@@ -95,8 +95,8 @@
             overflow: visible;
             background:
                 radial-gradient(ellipse at 50% 0%, rgba(106,191,64,0.08) 0%, transparent 50%),
-                radial-gradient(ellipse at 80% 90%, rgba(30,46,26,0.2) 0%, transparent 40%),
-                radial-gradient(ellipse at 15% 85%, rgba(30,46,26,0.15) 0%, transparent 35%);
+                radial-gradient(ellipse at 80% 90%, rgba(41,74,25,0.2) 0%, transparent 40%),
+                radial-gradient(ellipse at 15% 85%, rgba(41,74,25,0.15) 0%, transparent 35%);
         }
         /* Top foliage container */
         .hero-canopy {
@@ -118,9 +118,9 @@
         .hero-canopy .ln {
             mix-blend-mode: lighten;
         }
-        /* Bright lime — shift yellow-green toward #6abf40 */
+        /* Bright lime — shift yellow-green toward #6ABF40 */
         .hero-canopy .ln.v1 { filter: hue-rotate(15deg) saturate(1.2); }
-        /* Dark leaf — shift toward #2d5a20 */
+        /* Dark leaf — shift toward #407327 */
         .hero-canopy .ln.v2 { filter: hue-rotate(15deg) saturate(1.2) brightness(0.5); }
         /* Bottom vine border */
         .hero::after {
@@ -230,7 +230,7 @@
         }
         .btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 30px rgba(61,220,132,0.25);
+            box-shadow: 0 8px 30px rgba(106,191,64,0.25);
             text-decoration: none;
             color: var(--bg);
         }
@@ -302,7 +302,7 @@
         .plugin-card:hover {
             border-color: var(--border-hover);
             transform: translateY(-3px);
-            box-shadow: 0 10px 35px rgba(0,0,0,0.35), 0 0 60px rgba(61,220,132,0.06);
+            box-shadow: 0 10px 35px rgba(0,0,0,0.35), 0 0 60px rgba(106,191,64,0.06);
         }
         .plugin-card.featured { grid-column: span 2; }
         .plugin-card.featured .card-inner {
@@ -317,7 +317,7 @@
             justify-content: center;
             position: relative;
             overflow: hidden;
-            background: linear-gradient(145deg, #1e1e1e, #252525);
+            background: linear-gradient(145deg, #222222, #353535);
         }
         .card-image img {
             width: 100%;
@@ -361,10 +361,10 @@
             font-weight: 600;
             letter-spacing: 0.02em;
         }
-        .tag.runtime { background: rgba(61,220,132,0.1); color: var(--accent); border: 1px solid rgba(61,220,132,0.25); }
-        .tag.editor { background: rgba(69,183,209,0.1); color: #5cc8de; border: 1px solid rgba(69,183,209,0.2); }
-        .tag.soon { background: rgba(220,200,60,0.08); color: #bdb44f; border: 1px solid rgba(220,200,60,0.2); }
-        .tag.live { background: rgba(61,220,132,0.12); color: var(--accent); border: 1px solid rgba(61,220,132,0.3); font-weight: 700; }
+        .tag.runtime { background: rgba(106,191,64,0.1); color: var(--accent); border: 1px solid rgba(106,191,64,0.25); }
+        .tag.editor { background: rgba(48,184,220,0.1); color: #30B8DC; border: 1px solid rgba(48,184,220,0.2); }
+        .tag.soon { background: rgba(169,237,81,0.08); color: #A9ED51; border: 1px solid rgba(169,237,81,0.2); }
+        .tag.live { background: rgba(106,191,64,0.12); color: var(--accent); border: 1px solid rgba(106,191,64,0.3); font-weight: 700; }
         .card-desc {
             color: var(--text-secondary);
             font-size: 0.9rem;
@@ -399,14 +399,14 @@
             padding: 0.5rem 1.1rem;
             background: var(--accent-glow-strong);
             color: var(--accent);
-            border: 1px solid rgba(61,220,132,0.3);
+            border: 1px solid rgba(106,191,64,0.3);
             border-radius: 6px;
             font-weight: 600;
             font-size: 0.82rem;
             transition: background 0.15s, border-color 0.15s;
         }
         .store-btn:hover {
-            background: rgba(61,220,132,0.28);
+            background: rgba(106,191,64,0.28);
             border-color: var(--accent);
             text-decoration: none;
         }
@@ -463,8 +463,8 @@
         }
         .module-chip {
             padding: 0.5rem 0.7rem;
-            background: rgba(30,122,79,0.1);
-            border: 1px solid rgba(30,122,79,0.28);
+            background: rgba(64,115,39,0.1);
+            border: 1px solid rgba(64,115,39,0.28);
             border-radius: 8px;
             font-size: 0.78rem;
             color: var(--accent);
@@ -474,7 +474,7 @@
             transition: background 0.15s, border-color 0.15s;
         }
         .module-chip:hover {
-            background: rgba(30,122,79,0.2);
+            background: rgba(64,115,39,0.2);
             border-color: var(--accent-dim);
         }
 
@@ -693,7 +693,7 @@
 
         <!-- Anteloope (coming soon) -->
         <div class="plugin-card">
-            <div class="card-image" style="min-height:200px; background: linear-gradient(145deg, #1e1e1e, #252525);">
+            <div class="card-image" style="min-height:200px; background: linear-gradient(145deg, #222222, #353535);">
                 <span class="animal" style="font-size:4rem; position:relative; z-index:1; filter:saturate(0.7) brightness(0.9);">&#129420;</span>
             </div>
             <div class="card-body">
