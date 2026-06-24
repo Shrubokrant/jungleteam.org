@@ -45,7 +45,7 @@
   var EDGE_PUSH = 70;       // px the stem is pushed off-screen so its cut base stays hidden
   var LEAF_SCALE = 0.7;     // overall leaf size (scales reach + push together, keeps stems hidden)
   // torsion-spring constants (degrees, seconds)
-  var STIFF = 55, DAMP = 5.5, SCROLL_K = 0.7, MOUSE_K = 200, MAX_SWING = 12;
+  var STIFF = 55, DAMP = 5.5, SCROLL_IMPULSE = 95, MOUSE_K = 200, MAX_SWING = 12;
 
   // RNG re-seeded randomly per page load → a fresh arrangement on every reload.
   // build() resets to this per-load seed so a resize keeps the same arrangement.
@@ -180,11 +180,15 @@
   }
 
   // interaction state
-  var mx = -1e4, my = -1e4, scrollDelta = 0, lastY = window.scrollY || 0;
+  var mx = -1e4, my = -1e4, lastY = window.scrollY || 0;
+  var scrollAccum = 0, pendingGust = 0, scrollStopTimer = null;
   window.addEventListener("mousemove", function (e) { mx = e.clientX; my = e.clientY; }, { passive: true });
   window.addEventListener("mouseout", function (e) { if (!e.relatedTarget) { mx = -1e4; my = -1e4; } });
+  // Leaves stay calm WHILE scrolling; they sway once when scrolling STOPS (debounced).
   window.addEventListener("scroll", function () {
-    var y = window.scrollY || 0; scrollDelta += (y - lastY); lastY = y;
+    var y = window.scrollY || 0; scrollAccum += (y - lastY); lastY = y;
+    clearTimeout(scrollStopTimer);
+    scrollStopTimer = setTimeout(function () { pendingGust += scrollAccum; scrollAccum = 0; }, 140);
   }, { passive: true });
 
   var t0 = null, last = 0;
@@ -192,15 +196,17 @@
     if (t0 === null) { t0 = ts; last = ts; }
     var t = (ts - t0) / 1000;
     var dt = Math.min(0.05, Math.max(0.001, (ts - last) / 1000)); last = ts;
-    var sd = scrollDelta; scrollDelta = 0;
+    // settle-sway strength, applied ONCE when scrolling stops (0 while actively scrolling)
+    var gust = pendingGust ? Math.max(-1, Math.min(1, pendingGust / 300)) : 0;
+    pendingGust = 0;
 
     for (var i = 0; i < items.length; i++) {
       var it = items[i];
       // torsion spring: restoring + damping
       var accel = -STIFF * it.theta - DAMP * it.omega;
       it.omega += accel * dt;
-      // scroll gust -> per-leaf directional kick (free, multi-directional, no clamp)
-      if (sd) it.omega += sd * SCROLL_K * it.kick;
+      // when scrolling stops: one per-leaf directional kick (free, multi-directional, no clamp)
+      if (gust) it.omega += gust * SCROLL_IMPULSE * it.kick;
       // mouse wind: push the tip away from the cursor
       if (mx > -9e3) {
         var ang0 = it.base + it.theta;
