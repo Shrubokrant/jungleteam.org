@@ -181,14 +181,16 @@
 
   // interaction state
   var mx = -1e4, my = -1e4, lastY = window.scrollY || 0;
-  var scrollAccum = 0, pendingGust = 0, scrollStopTimer = null;
+  var scrollAccum = 0, pendingGust = 0, scrollStopTimer = null, scrolling = false;
   window.addEventListener("mousemove", function (e) { mx = e.clientX; my = e.clientY; }, { passive: true });
   window.addEventListener("mouseout", function (e) { if (!e.relatedTarget) { mx = -1e4; my = -1e4; } });
-  // Leaves stay calm WHILE scrolling; they sway once when scrolling STOPS (debounced).
+  // Leaves are held completely still WHILE scrolling; idle/mouse/sway resume only once
+  // scrolling STOPS (debounced), with a single settle-sway on the stop.
   window.addEventListener("scroll", function () {
     var y = window.scrollY || 0; scrollAccum += (y - lastY); lastY = y;
+    scrolling = true;
     clearTimeout(scrollStopTimer);
-    scrollStopTimer = setTimeout(function () { pendingGust += scrollAccum; scrollAccum = 0; }, 140);
+    scrollStopTimer = setTimeout(function () { scrolling = false; pendingGust += scrollAccum; scrollAccum = 0; }, 140);
   }, { passive: true });
 
   var t0 = null, last = 0;
@@ -196,7 +198,10 @@
     if (t0 === null) { t0 = ts; last = ts; }
     var t = (ts - t0) / 1000;
     var dt = Math.min(0.05, Math.max(0.001, (ts - last) / 1000)); last = ts;
-    // settle-sway strength, applied ONCE when scrolling stops (0 while actively scrolling)
+    // While scrolling: everything is frozen. Nothing animates until scrolling stops.
+    if (scrolling) { raf = requestAnimationFrame(frame); return; }
+
+    // settle-sway strength, applied ONCE on the frame after scrolling stops
     var gust = pendingGust ? Math.max(-1, Math.min(1, pendingGust / 300)) : 0;
     pendingGust = 0;
 
@@ -205,14 +210,13 @@
       // torsion spring: restoring + damping
       var accel = -STIFF * it.theta - DAMP * it.omega;
       it.omega += accel * dt;
-      // when scrolling stops: one per-leaf directional kick (free, multi-directional, no clamp)
+      // one per-leaf directional kick the moment scrolling stops (free, multi-directional)
       if (gust) it.omega += gust * SCROLL_IMPULSE * it.kick;
       // mouse wind: push the tip away from the cursor
       if (mx > -9e3) {
-        var ang0 = it.base + it.theta;
-        var dir = tipDir(it, ang0);
-        var midx = it.ax + dir.x * it.reach * 0.55, midy = it.ay + dir.y * it.reach * 0.55;
-        var ddx = midx - mx, ddy = midy - my, d = Math.sqrt(ddx * ddx + ddy * ddy);
+        var dir = tipDir(it, it.base + it.theta);
+        var ddx = (it.ax + dir.x * it.reach * 0.55) - mx, ddy = (it.ay + dir.y * it.reach * 0.55) - my;
+        var d = Math.sqrt(ddx * ddx + ddy * ddy);
         if (d < MOUSE_R) {
           var f = 1 - d / MOUSE_R;
           var cross = dir.x * (my - it.ay) - dir.y * (mx - it.ax);
