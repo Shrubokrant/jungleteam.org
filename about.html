@@ -16,18 +16,18 @@
             --bg-card: #353535;
             --bg-elevated: #222222;
             --border: #353535;
-            --border-hover: #6ABF40;
-            --accent: #6ABF40;
-            --accent-dim: #407327;
-            --accent-glow: rgba(106,191,64,0.10);
-            --accent-glow-strong: rgba(106,191,64,0.18);
+            --border-hover: ##66CB34;
+            --accent: ##66CB34;
+            --accent-dim: ##349505;
+            --accent-glow: rgba(102,203,52,0.10);
+            --accent-glow-strong: rgba(102,203,52,0.18);
             --text: #F0F0F0;
             --text-secondary: #999999;
             --text-muted: #999999;
             --white: #F0F0F0;
-            --vine: #407327;
-            --leaf-dark: #294A19;
-            --leaf-mid: #407327;
+            --vine: ##349505;
+            --leaf-dark: ##235C07;
+            --leaf-mid: ##349505;
         }
 
         body {
@@ -83,9 +83,9 @@
             position: relative;
             overflow: visible;
             background:
-                radial-gradient(ellipse at 50% 0%, rgba(106,191,64,0.08) 0%, transparent 50%),
-                radial-gradient(ellipse at 80% 90%, rgba(41,74,25,0.2) 0%, transparent 40%),
-                radial-gradient(ellipse at 15% 85%, rgba(41,74,25,0.15) 0%, transparent 35%);
+                radial-gradient(ellipse at 50% 0%, rgba(102,203,52,0.08) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 90%, rgba(35,92,7,0.2) 0%, transparent 40%),
+                radial-gradient(ellipse at 15% 85%, rgba(35,92,7,0.15) 0%, transparent 35%);
         }
         .hero-canopy {
             position: absolute;
@@ -139,9 +139,9 @@
             height: 132px;
             margin: 0 auto 1.5rem;
             border-radius: 50%;
-            background: radial-gradient(circle at 35% 30%, #407327, #294A19);
+            background: radial-gradient(circle at 35% 30%, ##349505, ##235C07);
             border: 3px solid var(--accent-dim);
-            box-shadow: 0 0 0 6px rgba(106,191,64,0.08), 0 10px 30px rgba(0,0,0,0.4);
+            box-shadow: 0 0 0 6px rgba(102,203,52,0.08), 0 10px 30px rgba(0,0,0,0.4);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -255,15 +255,15 @@
             align-items: center;
             gap: 0.45rem;
             padding: 0.5rem 0.95rem;
-            background: rgba(64,115,39,0.1);
-            border: 1px solid rgba(64,115,39,0.28);
+            background: rgba(52,149,5,0.1);
+            border: 1px solid rgba(52,149,5,0.28);
             border-radius: 20px;
             font-size: 0.85rem;
             color: var(--accent);
             font-weight: 600;
             transition: background 0.15s, border-color 0.15s;
         }
-        .animal-chip:hover { background: rgba(64,115,39,0.2); border-color: var(--accent-dim); text-decoration: none; }
+        .animal-chip:hover { background: rgba(52,149,5,0.2); border-color: var(--accent-dim); text-decoration: none; }
         .animal-chip .emoji { font-size: 1rem; }
 
         /* ── Connect cards ──────────────────────────────── */
@@ -307,7 +307,7 @@
             padding: 4rem 2rem;
             position: relative;
             overflow: hidden;
-            background: radial-gradient(ellipse at center, rgba(106,191,64,0.07), transparent 55%);
+            background: radial-gradient(ellipse at center, rgba(102,203,52,0.07), transparent 55%);
         }
         .cta-banner h2 { font-size: 1.8rem; color: var(--white); margin-bottom: 0.6rem; }
         .cta-banner p { color: var(--text-secondary); margin-bottom: 2rem; max-width: 480px; margin-left: auto; margin-right: auto; }
@@ -326,7 +326,7 @@
             border: none;
             cursor: pointer;
         }
-        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(106,191,64,0.25); text-decoration: none; color: var(--bg); }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(102,203,52,0.25); text-decoration: none; color: var(--bg); }
         .btn-ghost {
             display: inline-flex;
             align-items: center;

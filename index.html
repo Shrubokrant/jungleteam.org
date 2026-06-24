@@ -17,18 +17,18 @@
             --bg-card: #353535;
             --bg-elevated: #222222;
             --border: #353535;
-            --border-hover: #6ABF40;
-            --accent: #6ABF40;
-            --accent-dim: #407327;
-            --accent-glow: rgba(106,191,64,0.10);
-            --accent-glow-strong: rgba(106,191,64,0.18);
+            --border-hover: ##66CB34;
+            --accent: ##66CB34;
+            --accent-dim: ##349505;
+            --accent-glow: rgba(102,203,52,0.10);
+            --accent-glow-strong: rgba(102,203,52,0.18);
             --text: #F0F0F0;
             --text-secondary: #999999;
             --text-muted: #999999;
             --white: #F0F0F0;
-            --vine: #407327;
-            --leaf-dark: #294A19;
-            --leaf-mid: #407327;
+            --vine: ##349505;
+            --leaf-dark: ##235C07;
+            --leaf-mid: ##349505;
         }
 
         body {
@@ -94,9 +94,9 @@
             position: relative;
             overflow: visible;
             background:
-                radial-gradient(ellipse at 50% 0%, rgba(106,191,64,0.08) 0%, transparent 50%),
-                radial-gradient(ellipse at 80% 90%, rgba(41,74,25,0.2) 0%, transparent 40%),
-                radial-gradient(ellipse at 15% 85%, rgba(41,74,25,0.15) 0%, transparent 35%);
+                radial-gradient(ellipse at 50% 0%, rgba(102,203,52,0.08) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 90%, rgba(35,92,7,0.2) 0%, transparent 40%),
+                radial-gradient(ellipse at 15% 85%, rgba(35,92,7,0.15) 0%, transparent 35%);
         }
         /* Top foliage container */
         .hero-canopy {
@@ -118,9 +118,9 @@
         .hero-canopy .ln {
             mix-blend-mode: lighten;
         }
-        /* Bright lime — shift yellow-green toward #6ABF40 */
+        /* Bright lime — shift yellow-green toward ##66CB34 */
         .hero-canopy .ln.v1 { filter: hue-rotate(15deg) saturate(1.2); }
-        /* Dark leaf — shift toward #407327 */
+        /* Dark leaf — shift toward ##349505 */
         .hero-canopy .ln.v2 { filter: hue-rotate(15deg) saturate(1.2) brightness(0.5); }
         /* Bottom vine border */
         .hero::after {
@@ -230,7 +230,7 @@
         }
         .btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 30px rgba(106,191,64,0.25);
+            box-shadow: 0 8px 30px rgba(102,203,52,0.25);
             text-decoration: none;
             color: var(--bg);
         }
@@ -302,7 +302,7 @@
         .plugin-card:hover {
             border-color: var(--border-hover);
             transform: translateY(-3px);
-            box-shadow: 0 10px 35px rgba(0,0,0,0.35), 0 0 60px rgba(106,191,64,0.06);
+            box-shadow: 0 10px 35px rgba(0,0,0,0.35), 0 0 60px rgba(102,203,52,0.06);
         }
         .plugin-card.featured { grid-column: span 2; }
         .plugin-card.featured .card-inner {
@@ -361,10 +361,10 @@
             font-weight: 600;
             letter-spacing: 0.02em;
         }
-        .tag.runtime { background: rgba(106,191,64,0.1); color: var(--accent); border: 1px solid rgba(106,191,64,0.25); }
+        .tag.runtime { background: rgba(102,203,52,0.1); color: var(--accent); border: 1px solid rgba(102,203,52,0.25); }
         .tag.editor { background: rgba(48,184,220,0.1); color: #30B8DC; border: 1px solid rgba(48,184,220,0.2); }
-        .tag.soon { background: rgba(169,237,81,0.08); color: #A9ED51; border: 1px solid rgba(169,237,81,0.2); }
-        .tag.live { background: rgba(106,191,64,0.12); color: var(--accent); border: 1px solid rgba(106,191,64,0.3); font-weight: 700; }
+        .tag.soon { background: rgba(171,250,68,0.08); color: ##ABFA44; border: 1px solid rgba(171,250,68,0.2); }
+        .tag.live { background: rgba(102,203,52,0.12); color: var(--accent); border: 1px solid rgba(102,203,52,0.3); font-weight: 700; }
         .card-desc {
             color: var(--text-secondary);
             font-size: 0.9rem;
@@ -399,14 +399,14 @@
             padding: 0.5rem 1.1rem;
             background: var(--accent-glow-strong);
             color: var(--accent);
-            border: 1px solid rgba(106,191,64,0.3);
+            border: 1px solid rgba(102,203,52,0.3);
             border-radius: 6px;
             font-weight: 600;
             font-size: 0.82rem;
             transition: background 0.15s, border-color 0.15s;
         }
         .store-btn:hover {
-            background: rgba(106,191,64,0.28);
+            background: rgba(102,203,52,0.28);
             border-color: var(--accent);
             text-decoration: none;
         }
@@ -463,8 +463,8 @@
         }
         .module-chip {
             padding: 0.5rem 0.7rem;
-            background: rgba(64,115,39,0.1);
-            border: 1px solid rgba(64,115,39,0.28);
+            background: rgba(52,149,5,0.1);
+            border: 1px solid rgba(52,149,5,0.28);
             border-radius: 8px;
             font-size: 0.78rem;
             color: var(--accent);
@@ -474,7 +474,7 @@
             transition: background 0.15s, border-color 0.15s;
         }
         .module-chip:hover {
-            background: rgba(64,115,39,0.2);
+            background: rgba(52,149,5,0.2);
             border-color: var(--accent-dim);
         }
 
@@ -515,7 +515,7 @@
             padding: 4rem 2rem;
             position: relative;
             overflow: hidden;
-            background: radial-gradient(ellipse at center, rgba(106,191,64,0.07), transparent 55%);
+            background: radial-gradient(ellipse at center, rgba(102,203,52,0.07), transparent 55%);
         }
         /* Top vine wave */
         .cta-banner::before {
