@@ -7,10 +7,10 @@
  * pointer-events:none so links stay clickable.
  *
  * Motion = one rAF loop per leaf:
- *   - idle: a gentle sine sway (randomised speed/phase)
- *   - scroll: each leaf is a damped torsion spring; scrolling kicks it in its own
- *     random direction, so the canopy sways freely both ways and settles (no drag/clamp)
- *   - mouse: leaves near the cursor are pushed away like wind, then spring back
+ *   - idle: a gentle slow sine sway (randomised speed/phase)
+ *   - scroll: scroll activity (0..1, fades when you stop) boosts that sine's amplitude, so
+ *     leaves sway softly back and forth while scrolling — never pinned at a limit
+ *   - mouse: leaves near the cursor are pushed away like wind (damped spring), then settle back
  *
  * Config (optional): set window.__JUNGLE_FOLIAGE__ before this script, e.g.
  *   { contentSelector: ".md-main__inner" }   // measure margins outside this element
@@ -46,7 +46,8 @@
   var EDGE_PUSH = CFG.edgePush != null ? CFG.edgePush : 70;       // px the stem is pushed off-screen
   var LEAF_SCALE = CFG.leafScale != null ? CFG.leafScale : 0.7;   // overall leaf size
   // torsion-spring constants (degrees, seconds)
-  var STIFF = 22, DAMP = 3.2, SCROLL_GAIN = 0.5, MOUSE_K = 200, MAX_SWING = 10;
+  var STIFF = 40, DAMP = 5, SCROLL_SWAY = 3.5, SCROLL_FREQ = 3.0, MOUSE_K = 200, MAX_SWING = 14;
+  // while scrolling, leaves get an extra SCROLL_SWAY-deg oscillation at SCROLL_FREQ rad/s (~2s period)
 
   // RNG re-seeded randomly per page load → a fresh arrangement on every reload.
   // build() resets to this per-load seed so a resize keeps the same arrangement.
@@ -181,12 +182,12 @@
   }
 
   // interaction state
-  var mx = -1e4, my = -1e4, lastY = window.scrollY || 0, scrollAccum = 0;
+  var mx = -1e4, my = -1e4, lastY = window.scrollY || 0, scrollAccum = 0, scrollActivity = 0;
   window.addEventListener("mousemove", function (e) { mx = e.clientX; my = e.clientY; }, { passive: true });
   window.addEventListener("mouseout", function (e) { if (!e.relatedTarget) { mx = -1e4; my = -1e4; } });
-  // While scrolling, leaves sway softly and continuously (each frame's scroll delta nudges them).
+  // accumulate scroll distance; the frame loop turns it into a 0..1 "activity" that boosts the sway
   window.addEventListener("scroll", function () {
-    var y = window.scrollY || 0; scrollAccum += (y - lastY); lastY = y;
+    var y = window.scrollY || 0; scrollAccum += Math.abs(y - lastY); lastY = y;
   }, { passive: true });
 
   var t0 = null, last = 0;
@@ -194,16 +195,15 @@
     if (t0 === null) { t0 = ts; last = ts; }
     var t = (ts - t0) / 1000;
     var dt = Math.min(0.05, Math.max(0.001, (ts - last) / 1000)); last = ts;
-    // gentle continuous sway from this frame's scroll movement (clamped so it stays slow & soft)
-    var sd = Math.max(-50, Math.min(50, scrollAccum)); scrollAccum = 0;
+    // scroll activity: rises with scroll speed (0..1), fades smoothly when scrolling stops
+    scrollActivity = Math.max(scrollActivity * 0.92, Math.min(1, scrollAccum / 45));
+    scrollAccum = 0;
 
     for (var i = 0; i < items.length; i++) {
       var it = items[i];
-      // torsion spring: restoring + damping
+      // torsion spring (mouse wind only): restoring + damping
       var accel = -STIFF * it.theta - DAMP * it.omega;
       it.omega += accel * dt;
-      // scrolling nudges each leaf in its own direction -> soft constant sway while scrolling
-      if (sd) it.omega += sd * SCROLL_GAIN * it.kick;
       // mouse wind: push the tip away from the cursor
       if (mx > -9e3) {
         var dir = tipDir(it, it.base + it.theta);
@@ -219,7 +219,10 @@
       if (it.theta > MAX_SWING) { it.theta = MAX_SWING; it.omega *= -0.3; }
       else if (it.theta < -MAX_SWING) { it.theta = -MAX_SWING; it.omega *= -0.3; }
 
-      var ang = it.base + it.theta + it.idleAmp * Math.sin(t * it.idleSpd + it.phase);
+      // slow ambient idle sway + a gentle faster oscillation that scrolling fades in/out
+      var sway = it.idleAmp * Math.sin(t * it.idleSpd + it.phase)
+               + scrollActivity * SCROLL_SWAY * Math.sin(t * SCROLL_FREQ + it.phase);
+      var ang = it.base + it.theta + sway;
       it.img.style.transform = "rotate(" + ang.toFixed(2) + "deg)";
     }
     raf = requestAnimationFrame(frame);
