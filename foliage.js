@@ -46,7 +46,7 @@
   var EDGE_PUSH = CFG.edgePush != null ? CFG.edgePush : 70;       // px the stem is pushed off-screen
   var LEAF_SCALE = CFG.leafScale != null ? CFG.leafScale : 0.7;   // overall leaf size
   // torsion-spring constants (degrees, seconds)
-  var STIFF = 55, DAMP = 5.5, SCROLL_IMPULSE = 95, MOUSE_K = 200, MAX_SWING = 12;
+  var STIFF = 22, DAMP = 3.2, SCROLL_GAIN = 0.5, MOUSE_K = 200, MAX_SWING = 10;
 
   // RNG re-seeded randomly per page load → a fresh arrangement on every reload.
   // build() resets to this per-load seed so a resize keeps the same arrangement.
@@ -181,17 +181,12 @@
   }
 
   // interaction state
-  var mx = -1e4, my = -1e4, lastY = window.scrollY || 0;
-  var scrollAccum = 0, pendingGust = 0, scrollStopTimer = null, scrolling = false;
+  var mx = -1e4, my = -1e4, lastY = window.scrollY || 0, scrollAccum = 0;
   window.addEventListener("mousemove", function (e) { mx = e.clientX; my = e.clientY; }, { passive: true });
   window.addEventListener("mouseout", function (e) { if (!e.relatedTarget) { mx = -1e4; my = -1e4; } });
-  // Leaves are held completely still WHILE scrolling; idle/mouse/sway resume only once
-  // scrolling STOPS (debounced), with a single settle-sway on the stop.
+  // While scrolling, leaves sway softly and continuously (each frame's scroll delta nudges them).
   window.addEventListener("scroll", function () {
     var y = window.scrollY || 0; scrollAccum += (y - lastY); lastY = y;
-    scrolling = true;
-    clearTimeout(scrollStopTimer);
-    scrollStopTimer = setTimeout(function () { scrolling = false; pendingGust += scrollAccum; scrollAccum = 0; }, 140);
   }, { passive: true });
 
   var t0 = null, last = 0;
@@ -199,20 +194,16 @@
     if (t0 === null) { t0 = ts; last = ts; }
     var t = (ts - t0) / 1000;
     var dt = Math.min(0.05, Math.max(0.001, (ts - last) / 1000)); last = ts;
-    // While scrolling: everything is frozen. Nothing animates until scrolling stops.
-    if (scrolling) { raf = requestAnimationFrame(frame); return; }
-
-    // settle-sway strength, applied ONCE on the frame after scrolling stops
-    var gust = pendingGust ? Math.max(-1, Math.min(1, pendingGust / 300)) : 0;
-    pendingGust = 0;
+    // gentle continuous sway from this frame's scroll movement (clamped so it stays slow & soft)
+    var sd = Math.max(-50, Math.min(50, scrollAccum)); scrollAccum = 0;
 
     for (var i = 0; i < items.length; i++) {
       var it = items[i];
       // torsion spring: restoring + damping
       var accel = -STIFF * it.theta - DAMP * it.omega;
       it.omega += accel * dt;
-      // one per-leaf directional kick the moment scrolling stops (free, multi-directional)
-      if (gust) it.omega += gust * SCROLL_IMPULSE * it.kick;
+      // scrolling nudges each leaf in its own direction -> soft constant sway while scrolling
+      if (sd) it.omega += sd * SCROLL_GAIN * it.kick;
       // mouse wind: push the tip away from the cursor
       if (mx > -9e3) {
         var dir = tipDir(it, it.base + it.theta);
