@@ -40,10 +40,11 @@
     { count: 4, sizeFrac: 0.97, bright: 1.00, z: 3 }
   ];
 
-  var MIN_GUTTER = 120;     // px; thinner than this and a side is skipped
+  // overridable per page via window.__JUNGLE_FOLIAGE__ (defaults tuned for the wide docs gutters)
+  var MIN_GUTTER = CFG.minGutter != null ? CFG.minGutter : 120;  // px; thinner side is skipped
   var MOUSE_R = 280;        // px radius of cursor influence
-  var EDGE_PUSH = 70;       // px the stem is pushed off-screen so its cut base stays hidden
-  var LEAF_SCALE = 0.7;     // overall leaf size (scales reach + push together, keeps stems hidden)
+  var EDGE_PUSH = CFG.edgePush != null ? CFG.edgePush : 70;       // px the stem is pushed off-screen
+  var LEAF_SCALE = CFG.leafScale != null ? CFG.leafScale : 0.7;   // overall leaf size
   // torsion-spring constants (degrees, seconds)
   var STIFF = 55, DAMP = 5.5, SCROLL_IMPULSE = 95, MOUSE_K = 200, MAX_SWING = 12;
 
