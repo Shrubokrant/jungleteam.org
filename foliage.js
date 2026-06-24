@@ -157,13 +157,18 @@
         });
       }
 
+      // Resolution-independent size: leaves are sized from the VIEWPORT (capped), not the leftover
+      // gutter — so they don't balloon on ultrawide or vanish on laptops. place() still clamps to
+      // the gutter so they never cross the content; count scales with viewport height for density.
+      var baseReach = Math.min(Math.max(vh * 0.30, 150), 320);
       LAYERS.forEach(function (layer) {
-        for (var i = 0; i < layer.count; i++) {
-          var push = (EDGE_PUSH + rr(0, 80)) * LEAF_SCALE;           // hide the stem/base off-screen
+        var count = Math.max(2, Math.round(layer.count * vh / 850));
+        var span = vh / count;
+        for (var i = 0; i < count; i++) {
+          var push = (EDGE_PUSH + rr(0, 60)) * LEAF_SCALE;           // hide the stem/base off-screen
           var anchorX = edge + (isLeft ? -push : push);
-          var span = vh / layer.count;
           var anchorY = (i + 0.5) * span + rr(-span * 0.35, span * 0.35);
-          var desired = (zone + push) * layer.sizeFrac * LEAF_SCALE * (1 + qStep(0.20, 0.10));
+          var desired = baseReach * layer.sizeFrac * LEAF_SCALE * (1 + qStep(0.20, 0.10));
           place(pick(LEAVES), "leaf", layer, anchorX, anchorY, qStep(30, 10), desired);
         }
       });
