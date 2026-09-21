@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Octoputs demos: play in your browser | Jungle</title>
+    <meta name="description" content="Play the Octoputs example scenes in your browser: 3D drag and drop, card game, factory line, Sims-style placement, 2D and more.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&family=Lato:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/foliage.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg: #222222;
+            --bg-card: #353535;
+            --border: #353535;
+            --border-hover: #66CB34;
+            --accent: #66CB34;
+            --accent-dim: #349505;
+            --accent-glow: rgba(102,203,52,0.10);
+            --text: #F0F0F0;
+            --text-secondary: #999999;
+            --text-muted: #999999;
+            --white: #F0F0F0;
+        }
+
+        body {
+            font-family: 'Lato', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.65;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+        a { color: var(--accent); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        h1, h2, h3, .logo { font-family: 'Baloo 2', 'Lato', sans-serif; }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.1rem 3rem;
+            background: rgba(34,34,34,0.92);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(14px);
+        }
+        .logo { display: flex; align-items: center; }
+        nav { display: flex; align-items: center; gap: 0.15rem; }
+        nav a {
+            color: var(--text-secondary);
+            font-size: 0.88rem;
+            font-weight: 500;
+            padding: 0.4rem 0.85rem;
+            border-radius: 6px;
+            transition: color 0.15s, background 0.15s;
+        }
+        nav a:hover { color: var(--accent); background: var(--accent-glow); text-decoration: none; }
+
+        .hero {
+            text-align: center;
+            padding: 5rem 2rem 3.5rem;
+            position: relative;
+            background:
+                radial-gradient(ellipse at 50% 0%, rgba(102,203,52,0.08) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 90%, rgba(35,92,7,0.2) 0%, transparent 40%);
+        }
+        .product-icon { width: 110px; height: 110px; border-radius: 22px; margin-bottom: 1.4rem; }
+        .hero h1 { font-size: 2.6rem; font-weight: 800; color: var(--white); margin-bottom: 0.6rem; line-height: 1.12; }
+        .hero h1 em { font-style: normal; color: var(--accent); }
+        .hero .tagline { font-size: 1.05rem; color: var(--text-secondary); max-width: 620px; margin: 0 auto; line-height: 1.7; }
+
+        section { padding: 2.5rem 3rem; max-width: 1040px; margin: 0 auto; }
+        .section-label {
+            font-size: 0.72rem;
+            color: var(--accent-dim);
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        section h2 { font-size: 1.8rem; font-weight: 700; margin-bottom: 1.2rem; color: var(--white); }
+
+        .demo-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.1rem; }
+        .demo-card {
+            display: flex;
+            flex-direction: column;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.4rem;
+            color: inherit;
+            transition: border-color 0.2s, transform 0.15s;
+        }
+        .demo-card:hover { border-color: var(--border-hover); transform: translateY(-3px); text-decoration: none; }
+        .demo-card h3 { font-size: 1.05rem; color: var(--white); margin-bottom: 0.35rem; }
+        .demo-card p { font-size: 0.88rem; color: var(--text-secondary); line-height: 1.6; flex-grow: 1; }
+        .demo-card .meta { display: flex; justify-content: space-between; margin-top: 1rem; font-size: 0.8rem; }
+        .demo-card .size { color: var(--text-muted); }
+        .demo-card .play { color: var(--accent); font-weight: 700; }
+
+        .note { color: var(--text-muted); font-size: 0.85rem; text-align: center; padding: 1rem 2rem 3rem; }
+
+        footer {
+            text-align: center;
+            padding: 2.5rem 2rem;
+            color: var(--text-muted);
+            font-size: 0.82rem;
+            border-top: 1px solid var(--border);
+        }
+        footer a { color: var(--text-secondary); }
+        footer a:hover { color: var(--accent); }
+        .footer-links { display: flex; justify-content: center; gap: 1.8rem; margin-bottom: 0.8rem; flex-wrap: wrap; }
+
+        @media (max-width: 900px) { .demo-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 600px) {
+            header { padding: 1rem 1rem; }
+            nav a { padding: 0.4rem 0.5rem; }
+            .hero { padding: 3.5rem 1rem 2.5rem; }
+            .hero h1 { font-size: 2rem; }
+            section { padding: 2rem 1rem; }
+            .demo-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <a href="/index.html" class="logo">
+        <img src="/img/jungle-logo-stacked.svg" alt="Jungle" style="height:32px;">
+    </a>
+    <nav>
+        <a href="/index.html#plugins">Plugins</a>
+        <a href="/about.html">Hire / About</a>
+        <a href="https://jungleteam.org/docs/" target="_blank">Docs</a>
+        <a href="https://discord.gg/XEET6D6vN9" target="_blank">Discord</a>
+    </nav>
+</header>
+
+<div class="hero">
+    <img src="/img/octoputs-icon.png" alt="Octoputs" class="product-icon">
+    <h1>Play Octoputs in your <em>browser</em>.</h1>
+    <p class="tagline">These are the example scenes that ship with Octoputs, built for the web. Nothing to install. Best on a desktop with a mouse.</p>
+</div>
+
+<section>
+    <div class="section-label">Example scenes</div>
+    <h2>Full games in miniature.</h2>
+    <div class="demo-grid">
+        <a class="demo-card" href="/demos/polished/" target="_blank">
+            <h3>Polished 3D drag and drop</h3>
+            <p>The reference scene, with every bit of game feel turned on.</p>
+            <div class="meta"><span class="size">62 MB</span><span class="play">Play &rarr;</span></div>
+        </a>
+        <a class="demo-card" href="/demos/factory/" target="_blank">
+            <h3>Factory line</h3>
+            <p>Robot arms and belts that pick up, carry and place on their own.</p>
+            <div class="meta"><span class="size">151 MB</span><span class="play">Play &rarr;</span></div>
+        </a>
+        <a class="demo-card" href="/demos/moon/" target="_blank">
+            <h3>Moon astronaut</h3>
+            <p>A character that picks things up, carries them and puts them down.</p>
+            <div class="meta"><span class="size">85 MB</span><span class="play">Play &rarr;</span></div>
+        </a>
+        <a class="demo-card" href="/demos/cardgame/" target="_blank">
+            <h3>Collectible card game</h3>
+            <p>Draw, hold and play cards, with a hand that fans out and makes room.</p>
+            <div class="meta"><span class="size">227 MB</span><span class="play">Play &rarr;</span></div>
+        </a>
+        <a class="demo-card" href="/demos/sims/" target="_blank">
+            <h3>Sims-style placement</h3>
+            <p>Furniture that snaps to a grid, rotates and refuses bad spots.</p>
+            <div class="meta"><span class="size">275 MB</span><span class="play">Play &rarr;</span></div>
+        </a>
+        <a class="demo-card" href="/demos/figurines/" target="_blank">
+            <h3>Top down figurines</h3>
+            <p>Tabletop pieces moved around a board.</p>
+            <div class="meta"><span class="size">224 MB</span><span class="play">Play &rarr;</span></div>
+        </a>
+        <a class="demo-card" href="/demos/2d/" target="_blank">
+            <h3>2D drag and drop</h3>
+            <p>The same blocks, working on sprites in a flat scene.</p>
+            <div class="meta"><span class="size">55 MB</span><span class="play">Play &rarr;</span></div>
+        </a>
+    </div>
+</section>
+
+<section>
+    <div class="section-label">Showcases</div>
+    <h2>One feature at a time.</h2>
+    <div class="demo-grid">
+        <a class="demo-card" href="/demos/showcase-modifiers/" target="_blank">
+            <h3>Modifiers</h3>
+            <p>Springs, tilt, snapping and the other motion blocks, side by side.</p>
+            <div class="meta"><span class="size">57 MB</span><span class="play">Play &rarr;</span></div>
+        </a>
+        <a class="demo-card" href="/demos/showcase-transformations/" target="_blank">
+            <h3>Transformations</h3>
+            <p>The different ways an object can follow you: direct, physics, joints.</p>
+            <div class="meta"><span class="size">57 MB</span><span class="play">Play &rarr;</span></div>
+        </a>
+        <a class="demo-card" href="/demos/showcase-constraints/" target="_blank">
+            <h3>Constraints and shapes</h3>
+            <p>Keep objects on a line, inside a box or around a point.</p>
+            <div class="meta"><span class="size">57 MB</span><span class="play">Play &rarr;</span></div>
+        </a>
+        <a class="demo-card" href="/demos/showcase-transfer/" target="_blank">
+            <h3>Transfer</h3>
+            <p>Hand objects from slot to slot, with rules about what goes where.</p>
+            <div class="meta"><span class="size">57 MB</span><span class="play">Play &rarr;</span></div>
+        </a>
+    </div>
+</section>
+
+<p class="note">The bigger scenes take a while to load the first time. Your browser keeps them afterwards.</p>
+
+<footer>
+    <div class="footer-links">
+        <a href="/index.html#plugins">Plugins</a>
+        <a href="/about.html">Hire / About</a>
+        <a href="https://jungleteam.org/docs/" target="_blank">Docs</a>
+        <a href="/tos.html">Terms</a>
+        <a href="/privacy.html">Privacy</a>
+        <a href="https://discord.gg/XEET6D6vN9" target="_blank">Discord</a>
+    </div>
+    <p>&copy; 2026 Jungle &middot; indie-built with &hearts;, &#127793; and &#9749;.</p>
+</footer>
+
+</body>
+</html>

@@ -11,6 +11,9 @@ if ($LASTEXITCODE -ne 0) { Write-Error "Failed to upload index.html"; exit 1 }
 scp -i $key "$here\about.html" "${server}:${remote}/about.html"
 if ($LASTEXITCODE -ne 0) { Write-Error "Failed to upload about.html"; exit 1 }
 
+scp -i $key "$here\demos\index.html" "${server}:${remote}/demos/index.html"
+if ($LASTEXITCODE -ne 0) { Write-Error "Failed to upload demos/index.html"; exit 1 }
+
 # Upload the whole img folder into the remote root (overwrites img/* reliably on Windows;
 # the "img\." form silently skips files here).
 scp -i $key -r "$here\img" "${server}:${remote}/"
